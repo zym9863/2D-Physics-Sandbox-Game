@@ -7,6 +7,7 @@ import { BuildSystem } from './building/BuildSystem.ts'
 import { TopBar, GameMode } from './ui/TopBar.ts'
 import { Toolbar } from './ui/Toolbar.ts'
 import { BottomBar } from './ui/BottomBar.ts'
+import { ParticleSystem } from './effects/ParticleSystem.ts'
 import type { MaterialType } from './physics/Materials.ts'
 import type { ShapeType } from './building/BuildSystem.ts'
 
@@ -17,6 +18,7 @@ const renderer = new Renderer(canvas)
 const camera = new Camera()
 const input = new InputManager(canvas, camera)
 const buildSystem = new BuildSystem(engine)
+const particleSystem = new ParticleSystem()
 
 camera.x = 600
 camera.y = 400
@@ -103,6 +105,9 @@ function gameLoop(time: number) {
   }
 
   buildSystem.drawGhost(renderer.ctx)
+
+  particleSystem.update()
+  particleSystem.draw(renderer.ctx)
 
   camera.resetTransform(renderer.ctx)
 
