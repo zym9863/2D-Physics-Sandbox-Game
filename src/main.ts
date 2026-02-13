@@ -8,6 +8,11 @@ import { TopBar, GameMode } from './ui/TopBar.ts'
 import { Toolbar } from './ui/Toolbar.ts'
 import { BottomBar } from './ui/BottomBar.ts'
 import { ParticleSystem } from './effects/ParticleSystem.ts'
+import { DestructionSystem } from './physics/Destruction.ts'
+import { Bomb } from './weapons/Bomb.ts'
+import { Cannon } from './weapons/Cannon.ts'
+import { WreckingBall } from './weapons/WreckingBall.ts'
+import { Laser } from './weapons/Laser.ts'
 import type { MaterialType } from './physics/Materials.ts'
 import type { ShapeType } from './building/BuildSystem.ts'
 
@@ -19,6 +24,11 @@ const camera = new Camera()
 const input = new InputManager(canvas, camera)
 const buildSystem = new BuildSystem(engine)
 const particleSystem = new ParticleSystem()
+const destruction = new DestructionSystem(engine, particleSystem)
+const bomb = new Bomb()
+const cannon = new Cannon()
+const wreckingBall = new WreckingBall()
+const laser = new Laser()
 
 camera.x = 600
 camera.y = 400
@@ -34,7 +44,7 @@ const topBar = new TopBar({
       input.setToolHandler(buildSystem.getToolHandler())
     } else {
       toolbar.showDestroyTools()
-      input.setToolHandler(null) // Weapon handlers added in later tasks
+      input.setToolHandler(bomb.getToolHandler(engine, particleSystem))
     }
   },
   onReset: () => engine.clear(),
@@ -51,8 +61,21 @@ const toolbar = new Toolbar({
   onSelectShape: (type: ShapeType) => {
     buildSystem.currentShape = type
   },
-  onSelectWeapon: (_type: string) => {
-    input.setToolHandler(null) // Weapon tool handlers added in later tasks
+  onSelectWeapon: (type: string) => {
+    switch (type) {
+      case 'bomb':
+        input.setToolHandler(bomb.getToolHandler(engine, particleSystem))
+        break
+      case 'cannon':
+        input.setToolHandler(cannon.getToolHandler(engine))
+        break
+      case 'ball':
+        input.setToolHandler(wreckingBall.getToolHandler(engine))
+        break
+      case 'laser':
+        input.setToolHandler(laser.getToolHandler(engine, destruction))
+        break
+    }
   },
 })
 
@@ -108,6 +131,8 @@ function gameLoop(time: number) {
 
   particleSystem.update()
   particleSystem.draw(renderer.ctx)
+
+  laser.draw(renderer.ctx)
 
   camera.resetTransform(renderer.ctx)
 
