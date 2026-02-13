@@ -138,7 +138,25 @@ function gameLoop(time: number) {
 
   laser.draw(renderer.ctx)
 
+  // Draw ground surface line
+  renderer.ctx.strokeStyle = '#3d5a80'
+  renderer.ctx.lineWidth = 2
+  renderer.ctx.beginPath()
+  renderer.ctx.moveTo(-1500, 560)
+  renderer.ctx.lineTo(2700, 560)
+  renderer.ctx.stroke()
+
   camera.resetTransform(renderer.ctx)
+
+  // HUD overlay (drawn in screen space, after camera reset)
+  renderer.ctx.fillStyle = 'rgba(255, 255, 255, 0.5)'
+  renderer.ctx.font = '12px system-ui'
+  renderer.ctx.textAlign = 'right'
+  renderer.ctx.fillText(
+    `物体: ${bodies.length} | 粒子: ${particleSystem.count}`,
+    canvas.width - 12,
+    canvas.height - 12
+  )
 
   requestAnimationFrame(gameLoop)
 }
