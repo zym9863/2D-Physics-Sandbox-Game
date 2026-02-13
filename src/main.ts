@@ -76,6 +76,10 @@ input.onKey('Space', () => {
   topBar.setPauseLabel(!running)
 })
 
+input.onKey('KeyG', () => {
+  buildSystem.grid.enabled = !buildSystem.grid.enabled
+})
+
 // Game loop
 let lastTime = 0
 function gameLoop(time: number) {
@@ -86,6 +90,8 @@ function gameLoop(time: number) {
 
   renderer.clear()
   camera.applyTransform(renderer.ctx, canvas.width, canvas.height)
+
+  buildSystem.grid.draw(renderer.ctx, camera, canvas.width, canvas.height)
 
   const bodies = engine.getAllBodies()
   for (const body of bodies) {

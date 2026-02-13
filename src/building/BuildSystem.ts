@@ -2,6 +2,7 @@ import Matter from 'matter-js'
 import type { Engine } from '../core/Engine.ts'
 import type { ToolHandler } from '../core/InputManager.ts'
 import { type MaterialType, getMaterialOptions } from '../physics/Materials.ts'
+import { Grid } from './Grid.ts'
 
 export const ShapeType = {
   RECT: 'rect',
@@ -17,6 +18,7 @@ export class BuildSystem {
   currentShape: ShapeType = 'rect'
   blockWidth = 80
   blockHeight = 30
+  grid = new Grid()
 
   // Ghost preview
   ghostX = 0
@@ -30,11 +32,13 @@ export class BuildSystem {
   getToolHandler(): ToolHandler {
     return {
       onMouseDown: (wx, wy) => {
-        this.placeBlock(wx, wy)
+        const snapped = this.grid.snap(wx, wy)
+        this.placeBlock(snapped.x, snapped.y)
       },
       onMouseMove: (wx, wy) => {
-        this.ghostX = wx
-        this.ghostY = wy
+        const snapped = this.grid.snap(wx, wy)
+        this.ghostX = snapped.x
+        this.ghostY = snapped.y
         this.showGhost = true
       },
     }
