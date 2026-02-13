@@ -15,6 +15,7 @@ import { WreckingBall } from './weapons/WreckingBall.ts'
 import { Laser } from './weapons/Laser.ts'
 import type { MaterialType } from './physics/Materials.ts'
 import type { ShapeType } from './building/BuildSystem.ts'
+import { buildPreset, type PresetType } from './building/Presets.ts'
 
 const app = document.getElementById('app')!
 const canvas = document.getElementById('game-canvas') as HTMLCanvasElement
@@ -76,6 +77,9 @@ const toolbar = new Toolbar({
         input.setToolHandler(laser.getToolHandler(engine, destruction))
         break
     }
+  },
+  onSelectPreset: (type: PresetType) => {
+    buildPreset(type, camera.x, 540, buildSystem)
   },
 })
 

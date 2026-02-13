@@ -1,5 +1,6 @@
 import { MATERIALS, type MaterialType } from '../physics/Materials.ts'
 import { ShapeType } from '../building/BuildSystem.ts'
+import { PresetType } from '../building/Presets.ts'
 
 interface ToolItem {
   id: string
@@ -28,20 +29,29 @@ const WEAPON_TOOLS: ToolItem[] = [
   { id: 'laser', label: '激光', icon: '⚡', group: 'weapon' },
 ]
 
+const PRESET_TOOLS: ToolItem[] = [
+  { id: PresetType.TOWER, label: '塔楼', icon: '🏗', group: 'shape' },
+  { id: PresetType.WALL, label: '墙壁', icon: '🧱', group: 'shape' },
+  { id: PresetType.BRIDGE, label: '桥梁', icon: '🌉', group: 'shape' },
+]
+
 export class Toolbar {
   element: HTMLDivElement
   private onSelectMaterial: (type: MaterialType) => void
   private onSelectShape: (type: ShapeType) => void
   private onSelectWeapon: (type: string) => void
+  private onSelectPreset: (type: PresetType) => void
 
   constructor(opts: {
     onSelectMaterial: (type: MaterialType) => void
     onSelectShape: (type: ShapeType) => void
     onSelectWeapon: (type: string) => void
+    onSelectPreset: (type: PresetType) => void
   }) {
     this.onSelectMaterial = opts.onSelectMaterial
     this.onSelectShape = opts.onSelectShape
     this.onSelectWeapon = opts.onSelectWeapon
+    this.onSelectPreset = opts.onSelectPreset
 
     this.element = document.createElement('div')
     this.element.className = 'toolbar'
@@ -73,6 +83,11 @@ export class Toolbar {
         this.setActive(tool.id)
         this.onSelectShape(tool.id as ShapeType)
       })
+    }
+
+    this.addSection('预设')
+    for (const tool of PRESET_TOOLS) {
+      this.addTool(tool, () => this.onSelectPreset(tool.id as PresetType))
     }
 
     this.setActive('wood')
