@@ -10,14 +10,17 @@ export class BottomBar {
 
     this.element.innerHTML = `
       <div class="control-group">
-        <label>重力</label>
+        <label>▸ 重力</label>
         <input type="range" id="gravity-slider" min="0" max="3" step="0.1" value="1" />
         <span id="gravity-value">1.0</span>
       </div>
       <div class="control-group">
-        <label>速度</label>
+        <label>⚡ 速度</label>
         <input type="range" id="speed-slider" min="0.1" max="3" step="0.1" value="1" />
         <span id="speed-value">1.0</span>
+      </div>
+      <div class="control-group" style="margin-left: auto; opacity: 0.6;">
+        <span style="font-size: 10px; letter-spacing: 1px;">SPACE 暂停 · G 网格</span>
       </div>
     `
 

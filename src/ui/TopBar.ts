@@ -24,10 +24,18 @@ export class TopBar {
     this.element = document.createElement('div')
     this.element.className = 'top-bar'
 
-    const buildBtn = this.createBtn('build-btn active', '搭建', () => this.setMode(GameMode.BUILD))
-    const destroyBtn = this.createBtn('destroy-btn', '破坏', () => this.setMode(GameMode.DESTROY))
-    const resetBtn = this.createBtn('reset-btn', '重置', () => this.onReset())
-    this.pauseBtn = this.createBtn('pause-btn', '暂停', () => this.onPause())
+    // Logo / Title
+    const logo = document.createElement('div')
+    logo.innerHTML = `<span style="font-family: var(--font-mono); font-size: 14px; font-weight: 600; color: var(--accent-cyan); letter-spacing: 2px;">◇ PHYSICS</span>`
+    logo.style.display = 'flex'
+    logo.style.alignItems = 'center'
+    logo.style.gap = '8px'
+
+    const buildBtn = this.createBtn('build-btn active', '🏗 搭建', () => this.setMode(GameMode.BUILD))
+    const destroyBtn = this.createBtn('destroy-btn', '💥 破坏', () => this.setMode(GameMode.DESTROY))
+    
+    const resetBtn = this.createBtn('reset-btn', '↺ 重置', () => this.onReset())
+    this.pauseBtn = this.createBtn('pause-btn', '⏸ 暂停', () => this.onPause())
 
     const modeGroup = document.createElement('div')
     modeGroup.className = 'btn-group'
@@ -37,7 +45,7 @@ export class TopBar {
     actionGroup.className = 'btn-group'
     actionGroup.append(resetBtn, this.pauseBtn)
 
-    this.element.append(modeGroup, actionGroup)
+    this.element.append(logo, modeGroup, actionGroup)
   }
 
   setMode(mode: GameMode) {
@@ -47,7 +55,7 @@ export class TopBar {
   }
 
   setPauseLabel(paused: boolean) {
-    this.pauseBtn.textContent = paused ? '继续' : '暂停'
+    this.pauseBtn.textContent = paused ? '▶ 继续' : '⏸ 暂停'
   }
 
   private createBtn(cls: string, text: string, onClick: () => void): HTMLButtonElement {

@@ -69,7 +69,7 @@ export class Toolbar {
   private renderBuildTools() {
     this.element.innerHTML = ''
 
-    this.addSection('材质')
+    this.addSection('◈ 材质')
     for (const tool of MATERIAL_TOOLS) {
       this.addTool(tool, () => {
         this.setActive(tool.id)
@@ -77,7 +77,7 @@ export class Toolbar {
       })
     }
 
-    this.addSection('形状')
+    this.addSection('◇ 形状')
     for (const tool of SHAPE_TOOLS) {
       this.addTool(tool, () => {
         this.setActive(tool.id)
@@ -85,7 +85,7 @@ export class Toolbar {
       })
     }
 
-    this.addSection('预设')
+    this.addSection('▣ 预设')
     for (const tool of PRESET_TOOLS) {
       this.addTool(tool, () => this.onSelectPreset(tool.id as PresetType))
     }
@@ -96,7 +96,7 @@ export class Toolbar {
   private renderDestroyTools() {
     this.element.innerHTML = ''
 
-    this.addSection('武器')
+    this.addSection('⚔ 武器')
     for (const tool of WEAPON_TOOLS) {
       this.addTool(tool, () => {
         this.setActive(tool.id)
